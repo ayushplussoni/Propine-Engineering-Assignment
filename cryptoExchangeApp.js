@@ -27,19 +27,20 @@ fs.createReadStream("./transactions.csv")
 .on('end',function()
 {
     //Command Terminal
-    if(args.length==2)TimeandTokenPortfolio();
+    if(args.length==2)DateandTokenPortfolio();
     else if(args.length==1)
         {
-            if(Number.isInteger(parseInt(args[0])))TimePortfolio();
+            if(Number.isInteger(parseInt(args[0])))DatePortfolio();
             else TokenPortfolio();
         }
     else FullPortfolio();    
 });
 
 //Given a date and a token, return the portfolio value of that token in USD on that date
-TimeandTokenPortfolio=function()
+DateandTokenPortfolio=function()
 {
-    let inputTimestamp=args[0];
+    let date=args[0].split("-");
+    let inputTimestamp=new Date( date[2], date[1] - 1, date[0]);
     let inputToken=args[1];
     var total=0;
     for(let i=0;i<=Index;i++)
@@ -67,12 +68,13 @@ TimeandTokenPortfolio=function()
 }
 
 //Given a date, return the portfolio value per token in USD on that date
-TimePortfolio=function()
+DatePortfolio=function()
 {
     var distinctToken=[];
     var tokenBalance=[];
     var distinctTokenNumber=-1;
-    let inputTimestamp=args[0];
+    let date=args[0].split("-");
+    let inputTimestamp=new Date( date[2], date[1] - 1, date[0]);
     for(let i=0;i<=Index;i++)
     {
         if(Timestamp[i]>inputTimestamp)break;
